@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Android_3.3.2</string>
+    <string name="primary_txt">Hello, World!</string>
+    <string name="ok_btn">OK</string>
+    <string name="toast_select">Selected</string>
+    <string-array name="lang_spin">
+        <item>Russian</item>
+        <item>English (US)</item>
+    </string-array>
+</resources>
+
+
