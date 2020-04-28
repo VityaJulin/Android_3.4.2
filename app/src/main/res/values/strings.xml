@@ -12,6 +12,11 @@
         <item>Green</item>
         <item>Blue</item>
     </string-array>
+    <string-array name="margin_spin">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
 </resources>
 
 

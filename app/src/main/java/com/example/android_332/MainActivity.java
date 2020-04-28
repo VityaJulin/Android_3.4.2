@@ -1,7 +1,5 @@
 package com.example.android_332;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -12,30 +10,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private Spinner langSpin;
     private Button okBtn;
     private TextView primaryTxt;
+    private Spinner langSpin;
     private Spinner themesSpin;
+    private Spinner marginSpin;
     private int themeSpinPosition;
+    private int marginSpinPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         Utils.onActivityCreateSetTheme(this);
+        Utils.onActivityCreateSetMargin(this);
         setContentView(R.layout.activity_main);
         initViews();
         initLangSpin();
         initThemesSpin();
+        initMarginSpin();
 
         langSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] languages = getResources().getStringArray(R.array.lang_spin);
-                Toast.makeText(MainActivity.this, R.string.toast_select, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -48,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] themes = getResources().getStringArray(R.array.themes_spin);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        marginSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] margins = getResources().getStringArray(R.array.margin_spin);
             }
 
             @Override
@@ -85,6 +100,20 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
+                marginSpinPosition = marginSpin.getSelectedItemPosition();
+
+                switch (marginSpinPosition) {
+                    case 0:
+                        Utils.changeMargin(MainActivity.this, Utils.MARGIN_SMALL);
+                        break;
+                    case 1:
+                        Utils.changeMargin(MainActivity.this, Utils.MARGIN_MEDIUM);
+                        break;
+                    case 2:
+                        Utils.changeMargin(MainActivity.this, Utils.MARGIN_LARGE);
+                        break;
+                }
+                Toast.makeText(MainActivity.this, R.string.toast_select, Toast.LENGTH_SHORT).show();
                 recreate();
             }
         });
@@ -95,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         primaryTxt = findViewById(R.id.primary_txt);
         okBtn = findViewById(R.id.ok_btn);
         themesSpin = findViewById(R.id.themes_spin);
+        marginSpin = findViewById(R.id.margin_spin);
     }
 
     private void initLangSpin() {
@@ -109,5 +139,12 @@ public class MainActivity extends AppCompatActivity {
                 R.array.themes_spin, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         themesSpin.setAdapter(adapter);
+    }
+
+    private void initMarginSpin() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.margin_spin, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        marginSpin.setAdapter(adapter);
     }
 }
