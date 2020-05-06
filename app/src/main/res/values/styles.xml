@@ -28,16 +28,4 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorTextBlue</item>
     </style>
-
-    <style name="MarginSmall" parent="AppTheme">
-        <item name="android:layout_margin">10dp</item>
-    </style>
-
-    <style name="MarginMedium" parent="AppTheme">
-        <item name="android:layout_margin">3dp</item>
-    </style>
-
-    <style name="MarginLarge" parent="AppTheme">
-        <item name="android:layout_margin">1dp</item>
-    </style>
 </resources>

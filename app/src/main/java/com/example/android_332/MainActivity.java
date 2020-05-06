@@ -3,13 +3,11 @@ package com.example.android_332;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,22 +22,19 @@ public class MainActivity extends AppCompatActivity {
     private Spinner marginSpin;
     private int themeSpinPosition;
     private int marginSpinPosition;
-    private View group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         Utils.onActivityCreateSetTheme(this);
-        //Utils.onActivityCreateSetMargin(this);
         setContentView(R.layout.activity_main);
         initViews();
         initLangSpin();
         initThemesSpin();
         initMarginSpin();
 
-        final ConstraintLayout constraintLayout = new ConstraintLayout(MainActivity.this);
-        final ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        final ConstraintLayout constraintLayout = findViewById(R.id.main_layout);
 
         langSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -68,7 +63,20 @@ public class MainActivity extends AppCompatActivity {
         marginSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] margins = getResources().getStringArray(R.array.margin_spin);
+                marginSpinPosition = marginSpin.getSelectedItemPosition();
+
+                switch (marginSpinPosition) {
+                    case 0:
+                        constraintLayout.setPadding(10, 10, 10, 10);
+                        break;
+                    case 1:
+                        constraintLayout.setPadding(3, 3, 3, 3);
+                        break;
+                    case 2:
+                        constraintLayout.setPadding(1, 1, 1, 1);
+                        break;
+                }
+                setContentView(constraintLayout);
             }
 
             @Override
@@ -106,21 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                marginSpinPosition = marginSpin.getSelectedItemPosition();
 
-                switch (marginSpinPosition) {
-                    case 0:
-                        layoutParams.setMargins(1, 1, 1, 1);
-                        break;
-                    case 1:
-                        layoutParams.setMargins(3, 3, 3, 3);
-                        break;
-                    case 2:
-                        layoutParams.setMargins(10, 10, 10, 10);
-                        break;
-                }
-                setContentView(constraintLayout);
-                Toast.makeText(MainActivity.this, R.string.toast_select, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -131,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         okBtn = findViewById(R.id.ok_btn);
         themesSpin = findViewById(R.id.themes_spin);
         marginSpin = findViewById(R.id.margin_spin);
-        group = findViewById(R.id.group);
     }
 
     private void initLangSpin() {
