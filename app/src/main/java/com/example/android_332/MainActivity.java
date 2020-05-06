@@ -3,6 +3,7 @@ package com.example.android_332;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Locale;
 
@@ -22,18 +24,22 @@ public class MainActivity extends AppCompatActivity {
     private Spinner marginSpin;
     private int themeSpinPosition;
     private int marginSpinPosition;
+    private View group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         Utils.onActivityCreateSetTheme(this);
-        Utils.onActivityCreateSetMargin(this);
+        //Utils.onActivityCreateSetMargin(this);
         setContentView(R.layout.activity_main);
         initViews();
         initLangSpin();
         initThemesSpin();
         initMarginSpin();
+
+        final ConstraintLayout constraintLayout = new ConstraintLayout(MainActivity.this);
+        final ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         langSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -104,17 +110,17 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (marginSpinPosition) {
                     case 0:
-                        Utils.changeMargin(MainActivity.this, Utils.MARGIN_SMALL);
+                        layoutParams.setMargins(1, 1, 1, 1);
                         break;
                     case 1:
-                        Utils.changeMargin(MainActivity.this, Utils.MARGIN_MEDIUM);
+                        layoutParams.setMargins(3, 3, 3, 3);
                         break;
                     case 2:
-                        Utils.changeMargin(MainActivity.this, Utils.MARGIN_LARGE);
+                        layoutParams.setMargins(10, 10, 10, 10);
                         break;
                 }
+                setContentView(constraintLayout);
                 Toast.makeText(MainActivity.this, R.string.toast_select, Toast.LENGTH_SHORT).show();
-                recreate();
             }
         });
     }
@@ -125,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         okBtn = findViewById(R.id.ok_btn);
         themesSpin = findViewById(R.id.themes_spin);
         marginSpin = findViewById(R.id.margin_spin);
+        group = findViewById(R.id.group);
     }
 
     private void initLangSpin() {
